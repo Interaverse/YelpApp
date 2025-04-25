@@ -1,0 +1,19 @@
+# Compiled JavaScript files
+lib/**/*.js
+lib/**/*.js.map
+
+# TypeScript v1 declaration files
+typings/
+
+# Node.js dependency directory
+node_modules/
+*.local
+
+# Ignore service account key file
+yelp-456821-939594800d2e.json
+
+# Ignore runtime config if used
+.runtimeconfig.json
+
+# Google Cloud Service Account Keys
+yelp-456821-939594800d2e.json

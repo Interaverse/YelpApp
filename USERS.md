@@ -1,0 +1,13 @@
+# User Roles
+
+This document lists the user roles currently implemented in the frontend (`src/components/Login.jsx`).
+
+## Demo Roles:
+
+*   **Business Owner**
+*   **Manager**
+*   **Marketing**
+*   **Customer Experience**
+*   **Investor**
+*   **Analyst**
+*   **Admin**

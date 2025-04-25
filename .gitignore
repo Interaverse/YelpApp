@@ -1,0 +1,5 @@
+node_modules
+yelp-456821-939594800d2e.json
+
+# Environment variables
+.env*

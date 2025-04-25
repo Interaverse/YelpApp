@@ -1,0 +1,215 @@
+/* Marketing Dashboard Specific Styles */
+.marketing-dashboard-container {
+    padding: 2rem;
+    background-color: var(--background-color, #f8f9fa);
+    min-height: calc(100vh - 60px); /* Adjust based on header height */
+    color: var(--primary-text-color, #212529);
+}
+
+.marketing-dashboard-container h1 {
+    color: var(--primary-color, #4A90E2);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.marketing-dashboard-container h2 {
+    color: var(--secondary-text-color, #6c757d);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #dee2e6);
+    padding-bottom: 0.5rem;
+}
+
+.marketing-dashboard-loading,
+.marketing-dashboard-error {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--secondary-text-color, #6c757d);
+}
+
+.marketing-dashboard-error {
+    color: var(--error-color, #dc3545);
+}
+
+/* Section Layout */
+.dashboard-section {
+    background-color: var(--surface-color, #ffffff);
+    border-radius: var(--border-radius-medium, 8px);
+    box-shadow: var(--shadow-medium, 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04));
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* KPI Grid Styles */
+.stats-overview .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.kpi-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color, #f8f9fa);
+    padding: 1rem;
+    border-radius: var(--border-radius-small, 4px);
+    text-align: center;
+    border: 1px solid var(--border-color, #dee2e6);
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color, #4A90E2);
+    margin-bottom: 0.25rem;
+}
+
+.kpi-label {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #6c757d);
+}
+
+/* Chart Grid Layout */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Adjust minmax as needed */
+    gap: 2rem;
+    align-items: start; /* Align charts to the top */
+}
+
+.chart-container {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: var(--border-radius-small, 4px);
+    box-shadow: var(--shadow-light, 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03));
+    /* Ensure SVG scales nicely */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* D3 Chart Specific Styles */
+.chart-container svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #ccc; /* Lighter axis lines */
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 11px;
+    fill: var(--secondary-text-color, #6c757d);
+}
+
+.axis--x path {
+    display: none; /* Hide x-axis domain line */
+}
+
+.bar {
+    transition: fill 0.2s ease-in-out;
+}
+
+.bar:hover {
+    fill: var(--primary-hover-color, #357ABD);
+}
+
+/* Style for axes labels if added via D3 */
+.axis-label {
+    font-size: 12px;
+    fill: #555;
+    text-anchor: middle;
+}
+
+/* Chart Styles */
+.chart-card {
+  background-color: #f8f9fa; /* Light background for card */
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e9ecef;
+  margin-bottom: 1.5rem; 
+}
+
+.chart-card h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #343a40; /* Dark heading */
+}
+
+/* Style D3 axes */
+.axis path,
+.axis line {
+  stroke: var(--secondary-color, #adb5bd); /* Use secondary color, fallback grey */
+}
+
+.axis text {
+  fill: var(--secondary-color, #6c757d); /* Use secondary color for text */
+  font-size: 0.8em;
+}
+
+/* Style chart titles added via D3 */
+.chart-card svg text[text-anchor="middle"]:not(.axis text) {
+   fill: #343a40; /* Dark color for main title */
+   font-weight: bold;
+   font-size: 1rem;
+}
+
+/* Style bars and lines (using variable set in TSX) */
+.bar {
+    fill: var(--primary-color);
+}
+
+path:not(.domain) {
+    stroke: var(--primary-color);
+}
+
+/* Header Styles */
+.marketing-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #dee2e6);
+}
+
+.marketing-dashboard-header h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 1.8rem; /* Adjust size if needed */
+    color: var(--primary-color, #4A90E2); /* Use primary color */
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between email and button */
+}
+
+.user-actions span {
+    color: var(--secondary-text-color, #6c757d);
+    font-size: 0.9em;
+}
+
+/* Logout Button Styles (consistent with other dashboards) */
+.logout-button {
+  padding: 0.5rem 1rem;
+  background-color: #dc3545; /* Standard Bootstrap danger red */
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-small, 4px);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+} 

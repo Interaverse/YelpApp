@@ -1,0 +1,140 @@
+/* BusinessManagerDashboard.css */
+/* Based on styles from style.mdc and Dashboard.css */
+
+.business-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color, #f8f9fa);
+  color: var(--primary-text-color, #212529);
+  font-family: var(--font-family, sans-serif);
+}
+
+.business-dashboard-header {
+  background-color: var(--surface-color, #ffffff);
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color, #dee2e6);
+}
+
+.business-dashboard-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--primary-color, #4A90E2);
+}
+
+.dashboard-tabs {
+  background-color: var(--surface-color, #ffffff);
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid var(--border-color, #dee2e6);
+  box-shadow: var(--shadow-light);
+}
+
+.dashboard-tabs button {
+  padding: 0.75rem 1.5rem;
+  margin-right: 0.5rem;
+  border: none;
+  background-color: transparent;
+  color: var(--secondary-text-color, #6c757d);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-base);
+  border-bottom: 3px solid transparent;
+}
+
+.dashboard-tabs button:hover {
+  color: var(--primary-color, #4A90E2);
+}
+
+.dashboard-tabs button.active {
+  color: var(--primary-color, #4A90E2);
+  border-bottom: 3px solid var(--primary-color, #4A90E2);
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dashboard-content section {
+  background-color: var(--surface-color, #ffffff);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: var(--border-radius-medium, 8px);
+  box-shadow: var(--shadow-medium);
+}
+
+.dashboard-content h2 {
+  font-size: 1.25rem;
+  color: var(--primary-text-color);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color, #dee2e6);
+  padding-bottom: 0.5rem;
+}
+
+.kpi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+  background-color: var(--background-color, #f8f9fa);
+  padding: 1rem;
+  border-radius: var(--border-radius-small, 4px);
+  border: 1px solid var(--border-color, #dee2e6);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.chart-container {
+  background-color: #fff; /* Chart background */
+  padding: 1rem;
+  border-radius: var(--border-radius-small, 4px);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color, #dee2e6);
+  margin-top: 1rem;
+  /* Ensure SVG scales nicely */
+  display: flex;
+  justify-content: center; /* Center chart if smaller than container */
+  align-items: center;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.business-dashboard-footer {
+  background-color: var(--surface-color, #ffffff);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color, #6c757d);
+  border-top: 1px solid var(--border-color, #dee2e6);
+  margin-top: auto; /* Pushes footer to the bottom */
+}
+
+/* Loading and Error states */
+.loading, .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+    color: var(--secondary-text-color);
+}
+
+.error {
+    color: var(--error-color);
+} 

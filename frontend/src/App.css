@@ -1,0 +1,18 @@
+/* Add styles for App component here */
+.App {
+  width: 100%;
+  max-width: 1280px; /* Or your preferred max width */
+  margin: 0 auto;
+  padding: 2rem;
+  /* text-align: center; */ /* Replaced by flex alignment */
+
+  /* Flexbox centering - REMOVED */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* min-height: calc(100vh - 4rem); */
+
+  /* Revert text-align if needed for other content */
+  text-align: center;
+} 
