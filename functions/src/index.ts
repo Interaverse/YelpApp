@@ -16,6 +16,7 @@ import * as path from "path";
 
 // Import the new function (using an alias temporarily if needed, but direct import might be fine)
 import { getMarketingData as _getMarketingData } from "./marketingDashboard";
+import { getInvestorDashboardData as _getInvestorDashboardData } from "./investorDashboard";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -272,3 +273,4 @@ export const getBusinessDashboardData = onCall(async (request: CallableRequest<D
 
 // Export the new function using export const
 export const getMarketingData = _getMarketingData;
+export const getInvestorDashboardData = _getInvestorDashboardData;
