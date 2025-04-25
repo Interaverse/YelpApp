@@ -1,1 +1,11 @@
- 
+{
+  "hosting": {
+    "source": "frontend",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+} 
