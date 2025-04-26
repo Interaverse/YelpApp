@@ -2,7 +2,13 @@
 specVersion: v1alpha1
 
 # Defines the runtime environment
-runtime: nodejs18
+runtime: nodejs20
+
+# Define build-time settings
+build:
+  env:
+    # Prevent buildpack from running default scripts
+    GOOGLE_NODE_RUN_SCRIPTS: ""
 
 # Specifies how to run the application
 run:
