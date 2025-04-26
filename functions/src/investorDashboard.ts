@@ -1,16 +1,17 @@
 import * as functions from "firebase-functions";
 import { BigQuery } from "@google-cloud/bigquery";
 import corsLib from "cors";
+import * as path from 'path'; // Import path
 
 // Initialize CORS middleware
 const cors = corsLib({ origin: true });
 
 // Initialize BigQuery client
-// IMPORTANT: Ensure 'yelp-456821-939594800d2e.json' is in the 'functions' directory
-// and added to .gitignore
+// Construct the path relative to the compiled JS file in the 'lib' directory
+const keyFilePath = path.join(__dirname, "..", "yelp-456821-939594800d2e.json"); 
 const bigqueryClient = new BigQuery({
     projectId: "yelp-456821",
-    keyFilename: "yelp-456821-939594800d2e.json", // Relative path from where the function executes (lib directory)
+    keyFilename: keyFilePath, // Use the constructed path
 });
 
 // Cloud Function to get investor/analyst dashboard data
