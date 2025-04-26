@@ -1,0 +1,11 @@
+# Specifies the configuration version
+specVersion: v1alpha1
+
+# Defines the runtime environment
+runtime: nodejs18
+
+# Specifies how to run the application
+run:
+  # Command to execute when the container starts
+  # Path is relative to the workspace root
+  command: node functions/lib/index.js 
