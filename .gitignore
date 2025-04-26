@@ -3,3 +3,9 @@ yelp-456821-939594800d2e.json
 
 # Environment variables
 .env*
+
+# Build output
+frontend/dist
+
+# Firebase deployment cache
+.firebase
