@@ -7,5 +7,5 @@ runtime: nodejs18
 # Specifies how to run the application
 run:
   # Command to execute when the container starts
-  # Path is relative to the workspace root
-  command: node functions/lib/index.js 
+  # Relies on the 'start' script in the functions package.json
+  command: npm start 
