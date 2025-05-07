@@ -7,7 +7,6 @@ A web application that integrates with the Yelp API to display business informat
 Before you begin, ensure you have met the following requirements:
 *   You have installed Node.js and npm (or yarn).
 *   You have a Firebase project set up.
-*   You have a Yelp Fusion API Key.
 *   You have a Google Cloud Platform (GCP) project with BigQuery enabled and set up.
 
 ## Setup
@@ -66,11 +65,6 @@ To get the project up and running, follow these steps:
     REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_FIREBASE_STORAGE_BUCKET"
     REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_FIREBASE_MESSAGING_SENDER_ID"
     REACT_APP_FIREBASE_APP_ID="YOUR_FIREBASE_APP_ID"
-
-    # Yelp API Configuration
-    REACT_APP_YELP_API_KEY="YOUR_YELP_API_KEY"
-    # If you have server-side calls, you might also need:
-    # YELP_API_KEY="YOUR_SERVER_SIDE_YELP_API_KEY"
 
     # Google Cloud & BigQuery Configuration (if needed by your application)
     # Ensure these are prefixed with REACT_APP_ if accessed from a Create React App frontend
