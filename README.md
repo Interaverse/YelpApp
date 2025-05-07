@@ -51,7 +51,26 @@ To get the project up and running, follow these steps:
         *   OAuth 2.0 client IDs (if users authorize access to their own GCP resources, less typical for this kind of app).
     *   Refer to the Google Cloud BigQuery documentation for detailed setup instructions.
 
-5.  **Set up Environment Variables:**
+5.  **Populate BigQuery Tables using ETL Scripts:**
+    *   The project includes ETL (Extract, Transform, Load) scripts in the `/ETL` directory to populate your BigQuery tables.
+    *   You will find scripts for the following data schemas:
+        *   `investorsETL.py`: For investor-related data.
+        *   `marketingETL.py`: For marketing campaign data and metrics.
+        *   `managersETL.py`: For manager and operational data.
+    *   **Running the ETL Scripts:**
+        *   Before running, ensure each script is configured with your Google Cloud project ID, BigQuery dataset ID, and any necessary table IDs or source file paths.
+        *   You will likely need to have the Google Cloud SDK installed and authenticated (`gcloud auth application-default login`).
+        *   Install any Python dependencies required by the scripts (e.g., `pip install google-cloud-bigquery pandas`). These should be listed in a `requirements.txt` file within the `ETL` directory or at the project root if applicable.
+        *   Navigate to the `ETL` directory and run each script, for example:
+            ```bash
+            cd ETL
+            python investorsETL.py
+            python marketingETL.py
+            python managersETL.py
+            ```
+        *   Consult the comments or internal documentation within each ETL script for specific setup or operational details.
+
+6.  **Set up Environment Variables:**
     *   Create a `.env` file in the root of the project (or in the `frontend` directory if your setup expects it there - adjust path accordingly).
     *   Copy the contents of what would be in `.env.example` (see below) into your new `.env` file.
     *   Fill in the required API keys and Firebase configuration details.
