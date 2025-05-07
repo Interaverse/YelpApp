@@ -8,6 +8,7 @@ Before you begin, ensure you have met the following requirements:
 *   You have installed Node.js and npm (or yarn).
 *   You have a Firebase project set up.
 *   You have a Yelp Fusion API Key.
+*   You have a Google Cloud Platform (GCP) project with BigQuery enabled and set up.
 
 ## Setup
 
@@ -40,9 +41,18 @@ To get the project up and running, follow these steps:
 
 3.  **Set up Firebase Service Account Key:**
     *   Rename `yelp-456821-939594800d2e.json.example` to `yelp-456821-939594800d2e.json`.
-    *   Replace the placeholder values in `yelp-456821-939594800d2e.json` with your actual Firebase project's service account credentials. You can download this JSON file from your Firebase project settings.
+    *   Replace the placeholder values in `yelp-456821-939594800d2e.json` with your actual Firebase project's service account credentials. You can download this JSON file from your Firebase project settings. This service account might also need permissions for BigQuery if you are accessing BigQuery via backend services using this key.
 
-4.  **Set up Environment Variables:**
+4.  **Set up Google Cloud BigQuery:**
+    *   Ensure your Google Cloud project (the one associated with Firebase or a separate one) has the BigQuery API enabled.
+    *   Set up any necessary datasets and tables in BigQuery that the application will use.
+    *   If your application accesses BigQuery directly from the frontend (less common for sensitive operations) or backend, ensure you have the correct authentication mechanism in place. This might involve:
+        *   Service account keys (if backend access). The `yelp-456821-939594800d2e.json` might be used if the service account has BigQuery roles.
+        *   API Keys (for specific, restricted BigQuery access if applicable).
+        *   OAuth 2.0 client IDs (if users authorize access to their own GCP resources, less typical for this kind of app).
+    *   Refer to the Google Cloud BigQuery documentation for detailed setup instructions.
+
+5.  **Set up Environment Variables:**
     *   Create a `.env` file in the root of the project (or in the `frontend` directory if your setup expects it there - adjust path accordingly).
     *   Copy the contents of what would be in `.env.example` (see below) into your new `.env` file.
     *   Fill in the required API keys and Firebase configuration details.
@@ -61,6 +71,14 @@ To get the project up and running, follow these steps:
     REACT_APP_YELP_API_KEY="YOUR_YELP_API_KEY"
     # If you have server-side calls, you might also need:
     # YELP_API_KEY="YOUR_SERVER_SIDE_YELP_API_KEY"
+
+    # Google Cloud & BigQuery Configuration (if needed by your application)
+    # Ensure these are prefixed with REACT_APP_ if accessed from a Create React App frontend
+    # For backend services, you might use GOOGLE_APPLICATION_CREDENTIALS pointing to a service account JSON file.
+    # REACT_APP_GOOGLE_CLOUD_PROJECT_ID="YOUR_GCP_PROJECT_ID"
+    # REACT_APP_BIGQUERY_DATASET_ID="YOUR_BIGQUERY_DATASET_ID"
+    # REACT_APP_BIGQUERY_TABLE_ID="YOUR_BIGQUERY_TABLE_ID_FOR_YELP_DATA"
+    # etc.
 
     # Other API keys or configurations
     # Example: REACT_APP_GOOGLE_MAPS_API_KEY="YOUR_GOOGLE_MAPS_API_KEY"
