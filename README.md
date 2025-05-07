@@ -1,17 +1,33 @@
 # Yelp Web App
 
-A web application that integrates with the Yelp API to display business information, reviews, and potentially other features.
+A web application for visualizing and interacting with business data, primarily sourced from Google BigQuery. The application features a React-based frontend, a backend built with Firebase Functions (potentially served via Google Cloud App Hosting), and Python ETL scripts for data ingestion into BigQuery.
+
+This README provides instructions for setting up, running, and deploying the project.
+
+## Project Overview
+
+*   **Frontend (`frontend/`):** A React application built with Vite, responsible for user interface and data presentation.
+*   **Backend (`functions/` & `apphosting.yaml`):** Backend logic implemented as Firebase Functions (Node.js). These functions handle data retrieval from BigQuery and other backend tasks. The `apphosting.yaml` file suggests deployment as a service on Google Cloud App Hosting.
+*   **Data Store:** Google BigQuery is the primary data warehouse.
+*   **ETL (`ETL/`):** Python scripts for extracting, transforming, and loading data into BigQuery.
+*   **User Roles (`USERS.md`):** Refer to `USERS.md` for details on user roles implemented in the frontend.
+*   **Dashboard Designs (`*.puml` files):** The root directory contains several PlantUML (`.puml`) files that describe the designs for various dashboard views (Admin, Investor, Marketing, Manager). These can be useful for understanding the UI/UX goals.
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-*   You have installed Node.js and npm (or yarn).
-*   You have a Firebase project set up.
-*   You have a Google Cloud Platform (GCP) project with BigQuery enabled and set up.
+*   Node.js and npm (or yarn) installed.
+*   Python (3.x recommended) and pip installed.
+*   Google Cloud SDK (`gcloud` CLI) installed and authenticated (`gcloud auth login` and `gcloud auth application-default login`).
+*   A Google Cloud Platform (GCP) project with:
+    *   Firebase enabled (for Authentication, Hosting, Functions).
+    *   BigQuery API enabled and datasets/tables set up as required by the ETL scripts.
+    *   Cloud App Hosting enabled if using `apphosting.yaml` for backend deployment.
+*   A Firebase service account key JSON file (e.g., `yelp-456821-939594800d2e.json`). This key needs appropriate IAM permissions for Firebase services, BigQuery (e.g., BigQuery Data Editor, BigQuery User), and any other GCP services accessed.
 
 ## Setup
 
-To get the project up and running, follow these steps:
+Follow these steps to set up the project components:
 
 1.  **Clone the repository:**
     ```bash
@@ -19,156 +35,162 @@ To get the project up and running, follow these steps:
     cd yelp-web-app
     ```
 
-2.  **Install dependencies:**
-    Navigate to the `frontend` directory and install the necessary packages.
-    ```bash
-    cd frontend
-    npm install
-    # or
-    # yarn install
-    cd ..
-    ```
-    If there's a backend component, navigate to its directory (e.g., `backend`) and install its dependencies as well.
-    ```bash
-    # cd backend
-    # npm install
-    # # or
-    # # yarn install
-    # cd ..
-    ```
+2.  **Firebase Service Account Key:**
+    *   Place your downloaded Firebase service account key JSON file in the project root and rename it to `yelp-456821-939594800d2e.json`.
+    *   **Important:** This file is listed in `.gitignore` and should NOT be committed to your repository.
+    *   This key will be used by backend services (Firebase Functions / App Hosting) and potentially by ETL scripts for authentication.
+    *   An example file `yelp-456821-939594800d2e.json.example` is provided as a template.
+    *   Copy this key into the `functions/` directory as well, as it might be directly referenced there:
+        ```bash
+        cp yelp-456821-939594800d2e.json functions/
+        ```
 
+3.  **Backend Setup (`functions/` directory & App Hosting):
+    *   Navigate to the Firebase Functions directory:
+        ```bash
+        cd functions
+        ```
+    *   Install dependencies:
+        ```bash
+        npm install
+        ```
+    *   The backend is defined in `functions/index.js` (or `functions/src/` if using TypeScript and compiling to `lib/`).
+    *   It utilizes `@google-cloud/bigquery`, `firebase-admin`, etc.
+    *   **Local Emulation:** To run functions locally (requires Firebase Emulators setup):
+        ```bash
+        npm run serve 
+        ```
+    *   Refer to `functions/README.md` for any specific instructions related to the backend functions.
+    *   The `apphosting.yaml` in the root directory is configured for deploying this backend using Google Cloud App Hosting. It uses the `npm start` script from `functions/package.json`.
 
-3.  **Set up Firebase Service Account Key:**
-    *   Rename `yelp-456821-939594800d2e.json.example` to `yelp-456821-939594800d2e.json`.
-    *   Replace the placeholder values in `yelp-456821-939594800d2e.json` with your actual Firebase project's service account credentials. You can download this JSON file from your Firebase project settings. This service account might also need permissions for BigQuery if you are accessing BigQuery via backend services using this key.
+4.  **Frontend Setup (`frontend/` directory):
+    *   Navigate to the frontend directory:
+        ```bash
+        cd frontend
+        ```
+    *   Install dependencies:
+        ```bash
+        npm install
+        ```
+    *   The frontend is a Vite-React application.
 
-4.  **Set up Google Cloud BigQuery:**
-    *   Ensure your Google Cloud project (the one associated with Firebase or a separate one) has the BigQuery API enabled.
-    *   Set up any necessary datasets and tables in BigQuery that the application will use.
-    *   If your application accesses BigQuery directly from the frontend (less common for sensitive operations) or backend, ensure you have the correct authentication mechanism in place. This might involve:
-        *   Service account keys (if backend access). The `yelp-456821-939594800d2e.json` might be used if the service account has BigQuery roles.
-        *   API Keys (for specific, restricted BigQuery access if applicable).
-        *   OAuth 2.0 client IDs (if users authorize access to their own GCP resources, less typical for this kind of app).
-    *   Refer to the Google Cloud BigQuery documentation for detailed setup instructions.
+5.  **ETL Setup (`ETL/` directory):
+    *   Navigate to the ETL directory:
+        ```bash
+        cd ETL
+        ```
+    *   **Virtual Environment (Recommended):**
+        ```bash
+        python -m venv .venv
+        source .venv/bin/activate  # On Linux/macOS
+        # .\.venv\Scripts\activate   # On Windows PowerShell
+        ```
+    *   **Dependencies:** Install required Python packages. It is highly recommended to have a `requirements.txt` file in the `ETL/` directory. If it doesn't exist, create one based on the imports in the scripts (e.g., `google-cloud-bigquery`, `pandas`).
+        ```bash
+        pip install -r requirements.txt 
+        # or pip install google-cloud-bigquery pandas etc.
+        ```
+    *   **Configuration:** Each ETL script (`investorsETL.py`, `marketingETL.py`, `managersETL.py`) needs to be configured with:
+        *   Your Google Cloud Project ID.
+        *   The target BigQuery Dataset ID.
+        *   Specific BigQuery Table IDs.
+        *   Paths to source data files or connection details for source databases.
+        *   Consult the comments and code within each script for detailed configuration.
 
-5.  **Populate BigQuery Tables using ETL Scripts:**
-    *   The project includes ETL (Extract, Transform, Load) scripts in the `/ETL` directory to populate your BigQuery tables.
-    *   You will find scripts for the following data schemas:
-        *   `investorsETL.py`: For investor-related data.
-        *   `marketingETL.py`: For marketing campaign data and metrics.
-        *   `managersETL.py`: For manager and operational data.
-    *   **Running the ETL Scripts:**
-        *   Before running, ensure each script is configured with your Google Cloud project ID, BigQuery dataset ID, and any necessary table IDs or source file paths.
-        *   You will likely need to have the Google Cloud SDK installed and authenticated (`gcloud auth application-default login`).
-        *   Install any Python dependencies required by the scripts (e.g., `pip install google-cloud-bigquery pandas`). These should be listed in a `requirements.txt` file within the `ETL` directory or at the project root if applicable.
-        *   Navigate to the `ETL` directory and run each script, for example:
-            ```bash
-            cd ETL
-            python investorsETL.py
-            python marketingETL.py
-            python managersETL.py
+6.  **Set up Environment Variables (`.env` files):
+    *   **Frontend (`frontend/.env`):**
+        *   Create a `.env` file in the `frontend/` directory (you can copy `frontend/.env.example` if it exists, or create it manually).
+        *   This file should contain variables for the Firebase client-side SDK (these are typically public and safe to include in a `.env` file that gets bundled with the frontend).
+            ```env
+            REACT_APP_FIREBASE_API_KEY="YOUR_FIREBASE_CLIENT_API_KEY"
+            REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR_FIREBASE_CLIENT_AUTH_DOMAIN"
+            REACT_APP_FIREBASE_PROJECT_ID="YOUR_FIREBASE_CLIENT_PROJECT_ID"
+            REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_FIREBASE_CLIENT_STORAGE_BUCKET"
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_FIREBASE_CLIENT_MESSAGING_SENDER_ID"
+            REACT_APP_FIREBASE_APP_ID="YOUR_FIREBASE_CLIENT_APP_ID"
             ```
-        *   Consult the comments or internal documentation within each ETL script for specific setup or operational details.
+    *   **Backend/ETL (Environment Configuration):
+        *   **Firebase Functions/App Hosting:** Environment variables for the backend are typically managed through:
+            *   Google Cloud Secret Manager.
+            *   Directly in `apphosting.yaml` (for build or run `env` variables, though less secure for secrets).
+            *   Within Firebase Functions configuration (`firebase functions:config:set your.variable="value"`).
+            *   The service account key (`yelp-456821-939594800d2e.json`) provides authentication and project context.
+        *   **ETL Scripts:** Configuration like Project ID, Dataset ID is often hardcoded or passed as arguments in the scripts. For sensitive connection details, consider using environment variables or a secure configuration method.
+    *   An `.env.example` file is provided in the root to show structure for frontend variables.
 
-6.  **Set up Environment Variables:**
-    *   Create a `.env` file in the root of the project (or in the `frontend` directory if your setup expects it there - adjust path accordingly).
-    *   Copy the contents of what would be in `.env.example` (see below) into your new `.env` file.
-    *   Fill in the required API keys and Firebase configuration details.
-
-    **Contents for your `.env` file (based on a typical setup):**
-    ```env
-    # Firebase Configuration
-    REACT_APP_FIREBASE_API_KEY="YOUR_FIREBASE_API_KEY"
-    REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR_FIREBASE_AUTH_DOMAIN"
-    REACT_APP_FIREBASE_PROJECT_ID="YOUR_FIREBASE_PROJECT_ID"
-    REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_FIREBASE_STORAGE_BUCKET"
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_FIREBASE_MESSAGING_SENDER_ID"
-    REACT_APP_FIREBASE_APP_ID="YOUR_FIREBASE_APP_ID"
-
-    # Google Cloud & BigQuery Configuration (if needed by your application)
-    # Ensure these are prefixed with REACT_APP_ if accessed from a Create React App frontend
-    # For backend services, you might use GOOGLE_APPLICATION_CREDENTIALS pointing to a service account JSON file.
-    # REACT_APP_GOOGLE_CLOUD_PROJECT_ID="YOUR_GCP_PROJECT_ID"
-    # REACT_APP_BIGQUERY_DATASET_ID="YOUR_BIGQUERY_DATASET_ID"
-    # REACT_APP_BIGQUERY_TABLE_ID="YOUR_BIGQUERY_TABLE_ID_FOR_YELP_DATA"
-    # etc.
-
-    # Other API keys or configurations
-    # Example: REACT_APP_GOOGLE_MAPS_API_KEY="YOUR_GOOGLE_MAPS_API_KEY"
-    ```
-    *Note: The `.env.example` file could not be created automatically. Please manually create a `.env` file and populate it using the structure above.*
-
-## Installation
-
-After setting up the environment, you can install the project dependencies.
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-# or
-yarn install
-```
-
-**Backend (if applicable):**
-```bash
-# cd backend
-# npm install
-# # or
-# yarn install
-```
+7.  **Populate BigQuery Tables using ETL Scripts:**
+    *   After configuring the ETL scripts and your Python environment:
+        ```bash
+        cd ETL
+        # Ensure your virtual environment is active if you created one
+        # Ensure gcloud auth application-default login has been run
+        python investorsETL.py
+        python marketingETL.py
+        python managersETL.py
+        ```
+    *   Monitor the output of each script for success or errors.
 
 ## Usage
 
-**Development Server (Frontend):**
-To run the frontend development server:
+**Frontend Development Server:**
 ```bash
 cd frontend
 npm start
-# or
-yarn start
 ```
-This will typically open the app in your default web browser at `http://localhost:3000`.
+This will typically open the app at `http://localhost:5173` (Vite's default) or `http://localhost:3000`.
 
-**Backend Server (if applicable):**
-To run the backend server:
+**Backend Local Emulation (Firebase Functions):**
 ```bash
-# cd backend
-# npm start # or node server.js, etc.
+cd functions
+npm run serve
 ```
+This starts the Firebase Emulators for functions. You'll need to configure your frontend to point to the local emulator URLs for testing.
 
-**Building for Production:**
-To build the frontend for production:
-```bash
-cd frontend
-npm run build
-# or
-yarn build
-```
-The build artifacts will usually be in the `frontend/dist` or `frontend/build` directory.
+## Linting & Formatting
+
+*   **Frontend:**
+    ```bash
+    cd frontend
+    npm run lint
+    ```
+*   **Backend (Firebase Functions):**
+    ```bash
+    cd functions
+    npm run lint
+    ```
 
 ## Deployment
 
-This project uses Firebase. Ensure your Firebase CLI is configured and you are logged in.
+Deployment involves multiple components:
 
-1.  **Login to Firebase (if you haven't already):**
-    ```bash
-    firebase login
-    ```
-2.  **Initialize Firebase in your project (if not already done):**
-    ```bash
-    firebase init
-    ```
-    Follow the prompts, selecting Hosting and any other Firebase services you are using (e.g., Firestore, Functions). Make sure to configure the public directory correctly (e.g., `frontend/build` or `frontend/dist`).
+1.  **Frontend (Firebase Hosting):
+    *   Build the frontend application:
+        ```bash
+        cd frontend
+        npm run build
+        ```
+    *   Deploy to Firebase Hosting (ensure `firebase.json` is configured to point to the correct build output directory, e.g., `frontend/dist`):
+        ```bash
+        firebase deploy --only hosting
+        ```
 
-3.  **Deploy to Firebase Hosting:**
-    ```bash
-    firebase deploy --only hosting
-    ```
-    If you are using other Firebase services like Functions or Firestore rules:
-    ```bash
-    firebase deploy
-    ```
+2.  **Backend (Firebase Functions / Google Cloud App Hosting):
+    *   **Option A: Deploy directly as Firebase Functions:**
+        ```bash
+        cd functions
+        # npm run build # If using TypeScript and it's not automatically built by deploy
+        firebase deploy --only functions
+        ```
+    *   **Option B: Deploy using Google Cloud App Hosting (`apphosting.yaml`):**
+        This method uses the configuration in `apphosting.yaml` to deploy the backend as a service. This is often preferred for more complex backend setups or different scaling needs.
+        ```bash
+        # Ensure you are in the project root directory
+        gcloud app deploy apphosting.yaml
+        ```
+    *   **Clarification Needed:** The project should define which backend deployment strategy (Firebase Functions direct deploy or App Hosting) is primary or if they serve different purposes. `firebase.json` might also contain rewrites to functions that could interact with or be superseded by App Hosting.
+
+3.  **ETL Scripts:**
+    *   These are run manually or can be scheduled using Google Cloud Scheduler, Cloud Workflows, or other orchestration tools to regularly update BigQuery data.
 
 ## Contributing
 
@@ -182,4 +204,4 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-*This README was generated with assistance from an AI.* 
+*This README was generated and updated with assistance from an AI.* 
