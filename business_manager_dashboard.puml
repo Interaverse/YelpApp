@@ -1,0 +1,49 @@
+@startuml Business Manager Dashboard
+
+!theme vibrant
+
+title Business Manager Dashboard
+
+rectangle "Dashboard Container" {
+    rectangle "Header" {
+        label "User Email"
+        label "Logout Button"
+    }
+
+    rectangle "KPI Section" {
+        frame "KPI Cards" {
+            label "Total Reviews"
+            label "Avg Rating"
+            label "Total Check-ins"
+            label "Avg Sentiment"
+        }
+    }
+
+    rectangle "Tab Navigation" {
+        label "Overview Tab"
+        label "Performance Tab"
+        label "Feedback Tab"
+        label "Activity Tab"
+    }
+
+    rectangle "Content Area" {
+        rectangle "Overview Tab Content" {
+            rectangle "Avg Rating Gauge (D3)"
+        }
+        rectangle "Performance Tab Content" {
+            rectangle "Weekly Reviews & Rating Trend (D3 Line)"
+        }
+        rectangle "Feedback Tab Content" {
+            rectangle "Review Sentiment Breakdown (D3 Bar)"
+        }
+        rectangle "Activity Tab Content" {
+            rectangle "Avg Check-ins/Rating by Day (D3 Bar)"
+        }
+    }
+}
+
+Header -down-> "KPI Section" : Contains
+"KPI Section" -down-> "Tab Navigation" : Contains
+"Tab Navigation" -down-> "Content Area" : Controls
+
+@enduml 

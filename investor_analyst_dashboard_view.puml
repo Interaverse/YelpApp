@@ -1,0 +1,47 @@
+@startuml Investor/Analyst Dashboard View
+
+!theme vibrant
+
+title Default Dashboard (Investor/Analyst View)
+
+rectangle "Dashboard Container (Dashboard.jsx)" {
+    rectangle "Header" {
+        label "Title: Yelp Analytics Dashboard"
+        label "User Email"
+        label "Logout Button"
+    }
+
+    rectangle "Main Content" {
+        rectangle "Investor Dashboard Component (InvestorDashboard.jsx)" {
+            label "Title: Investor & Business Analyst Dashboard"
+            rectangle "KPI Section" {
+                 frame "KPI Cards" {
+                    label "Total Businesses"
+                    label "Total Reviews"
+                    label "Total Check-ins"
+                    label "Total Tips"
+                    label "Total Photos"
+                    label "Avg. Engagement"
+                    label "Avg. Growth Rate"
+                 }
+            }
+            rectangle "Charts Section" {
+                frame "Chart Containers" {
+                    label "LineChart: Monthly Review Trend"
+                    label "BarChart: Reviews by Top Subcategory"
+                    label "LineChart: Monthly Engagement Trend"
+                    label "BarChart: Growth Rate by Top Subcategory"
+                }
+            }
+        }
+    }
+
+    rectangle "Footer" {
+        label "Copyright Info" as FooterText
+    }
+}
+
+Header -down-> "Main Content" : Contains
+"Main Content" -down-> Footer : Contains
+
+@enduml 

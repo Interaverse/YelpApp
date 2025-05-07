@@ -1,0 +1,29 @@
+@startuml Admin Dashboard View
+
+!theme vibrant
+
+title Default Dashboard (Admin View)
+
+rectangle "Dashboard Container" {
+    rectangle "Header" {
+        label "Title: Yelp Analytics Dashboard"
+        label "User Email"
+        label "Logout Button"
+    }
+
+    rectangle "Main Content" {
+        label "Heading: Your Dashboard" as MainHeading
+        rectangle "Placeholder Chart 1" as Chart1
+        rectangle "Placeholder Chart 2" as Chart2
+        rectangle "Placeholder Chart 3" as Chart3
+    }
+
+    rectangle "Footer" {
+        label "Copyright Info" as FooterText
+    }
+}
+
+Header -down-> "Main Content" : Contains
+"Main Content" -down-> Footer : Contains
+
+@enduml 

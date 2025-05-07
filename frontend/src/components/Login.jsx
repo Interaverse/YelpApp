@@ -58,7 +58,7 @@ function Login() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
         <h2>Login</h2>
-        <p>Select your email and enter the password (any password works for demo).</p>
+        <p>Select your email and enter "password" for any account listed</p>
         {error && <p className="error-message">{error}</p>}
         <div className="form-group">
           <label htmlFor="email">Email:</label>

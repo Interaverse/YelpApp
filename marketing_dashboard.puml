@@ -1,0 +1,36 @@
+@startuml Marketing Dashboard
+
+!theme vibrant
+
+title Marketing & Customer Experience Dashboard
+
+rectangle "Dashboard Container" {
+    rectangle "Header" {
+        label "Title: Marketing & Customer Experience Dashboard"
+        label "User Email"
+        label "Logout Button"
+    }
+
+    rectangle "User Stats Section" {
+        frame "KPI Cards" {
+            label "Avg User Rating"
+            label "Total Fans"
+            label "Total Compliments"
+            label "Total Users"
+        }
+    }
+
+    rectangle "Charts Section" {
+        frame "Chart Grid" {
+            rectangle "Average Monthly Stars (D3 Line)" as ChartStars
+            rectangle "Vote Distribution (D3 Bar)" as ChartVotes
+            rectangle "Reviews by State (D3 Bar)" as ChartState
+            rectangle "Top Categories by Review Count (D3 Bar)" as ChartCategory
+        }
+    }
+}
+
+Header -down-> "User Stats Section" : Contains
+"User Stats Section" -down-> "Charts Section" : Contains
+
+@enduml 
